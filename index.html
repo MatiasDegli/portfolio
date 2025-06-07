@@ -76,6 +76,29 @@
             transform: translateY(-5px);
         }
 
+        .about-content {
+            display: flex;
+            align-items: center; /* centra verticalmente */
+            gap: 2rem; /* espacio entre imagen y texto */
+            flex-wrap: wrap; /* opcional: para que no se rompa en pantallas chicas */
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 70%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0; /* evita que la imagen se achique */
+            /*margin: 0 auto 1rem auto;*/
+        }
+
+        .about-text {
+            flex: 1; 
+            min-width: 250px;
+        }
+
         .contact-icons {
             display: flex;
             gap: 2rem;
@@ -128,12 +151,17 @@
             <article class="toggle-card">
                 <h3 onclick="toggleDescription(this)">Descripción</h3>
                 <div class="description">
-                    <p><strong>
-                        Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.
-                    </strong></p>
-                    <p>
-                        Me considero una persona motivada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
-                    </p>
+                    <div class="about-content">    
+                        <div class="about-text">
+                            <p><strong>
+                                Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.
+                            </strong></p>
+                            <p>
+                                Me considero una persona motivada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
+                            </p>
+                        </div> 
+                        <img src="img/profile_jpg.jpg" alt="Foto de perfil" class="profile-img">
+                    </div>
                 </div>    
             </article>
 
