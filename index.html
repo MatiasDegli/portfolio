@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-top: 50px;
+        }
+
+        header p {
+            color: grey;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-top: 3rem;
+        }
+
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1e1e1e;
+        }
+
+        article {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        article:last-child {
+            border-bottom: none;
+        }
+
+        article h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        article p {
+            margin: 0.5rem 0 0;
+            line-height: 1.6;
+        }
+
+        .toggle-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .toggle-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-icons a img {
+            width: 32px;
+            height: 32px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .contact-icons a:hover img {
+            filter: grayscale(0%);
+        }
+
+        .description {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+        }
+
+        .toggle-card.open .description {
+            max-height: 500px; /* un valor grande suficiente */
+            opacity: 1;
+        }
+
+
+        .toggle-card h3 {
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Matías Degli Innocenti</h1>   
+        <p>Aspiring Software Developer</p>
+    </header>
+    <main>
+        
+        <section>
+            
+            <h2>Sobre mi</h2>
+
+            <article class="toggle-card">
+                <h3 onclick="toggleDescription(this)">Descripción</h3>
+                <div class="description">
+                    <p><strong>
+                        Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.
+                    </strong></p>
+                    <p>
+                        Me considero una persona motivada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
+                    </p>
+                </div>    
+            </article>
+        
+        </section>
+
+            
+        <section>
+            <h2>Proyectos</h2>
+
+            <article class="toggle-card">
+                <h3 onclick="toggleDescription(this)">Portafolio Personal</h3>
+                <div class="description">
+                    Sitio web diseñado desde cero con HTML y CSS como parte de un proceso autodidacta. El objetivo es mostrar habilidades y proyectos de forma profesional y minimalista.
+                </div>
+            </article>
+
+
+            <article class="toggle-card">
+                <h3 onclick="toggleDescription(this)">CS50 Final Project</h3>
+                <div class="description">
+                    Proyecto final del curso CS50 de Harvard, enfocado en la creación de una aplicación web con Python y Flask, incluyendo autenticación de usuarios y almacenamiento de datos.
+                </div>
+            </article>
+
+        </section>
+
+        <section>
+            <h2>Contacto</h2>
+            <p>
+                Podes encontrarme en:
+            </p>
+            <div class="contact-icons">
+                <a href="https://github.com/MatiasDegli" aria-label="GitHub" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" />
+                </a>
+                <a href="https://www.linkedin.com/in/matiasdegli/?locale=es_ES" aria-label="LinkedIn" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" />
+                </a>
+                <a href="mailto:matias.degli@gmail.com" aria-label="Email">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg" alt="Email" />
+                </a>
+            </div>
+        </section>
+    
+    </main>
+    
+    <script>
+
+        function toggleDescription(header) {
+            const card = header.parentElement;
+            card.classList.toggle('open');
+        }
+    </script>
+
+</body>
+</html>
