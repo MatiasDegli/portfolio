@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Portfolio</title>
     <style>
+        
         body {
             margin: 0;
             padding: 0;
@@ -77,7 +78,7 @@
         }
 
         .about-content {
-            display: flex;
+            display: flex;        
             align-items: center; /* centra verticalmente */
             gap: 2rem; /* espacio entre imagen y texto */
             flex-wrap: wrap; /* opcional: para que no se rompa en pantallas chicas */
@@ -91,9 +92,40 @@
             object-position: center 70%;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             flex-shrink: 0; /* evita que la imagen se achique */
-            /*margin: 0 auto 1rem auto;*/
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
+        /*defino lightbox*/
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /*para texto de descripcion*/
         .about-text {
             flex: 1; 
             min-width: 250px;
@@ -130,7 +162,6 @@
             opacity: 1;
         }
 
-
         .toggle-card h3 {
             cursor: pointer;
         }
@@ -144,6 +175,11 @@
     </header>
     <main>
         
+        <div class="image-modal" id="imageModal">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img src="img/profile_jpg.jpg" alt="Foto de perfil ampliada">
+        </div>
+
         <section>
             
             <h2>Sobre mi</h2>
@@ -218,12 +254,33 @@
     </main>
     
     <script>
-
         function toggleDescription(header) {
             const card = header.parentElement;
             card.classList.toggle('open');
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const profileImage = document.querySelector('.profile-img');
+            const modal = document.getElementById('imageModal');
+
+            if (profileImage && modal) {
+                profileImage.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                });
+
+                modal.querySelector('.close-modal').addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }    
+        });
     </script>
+
 
 </body>
 </html>
