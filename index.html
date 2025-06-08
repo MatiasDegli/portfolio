@@ -19,6 +19,21 @@
             color: white;
             padding: 2rem;
             text-align: center;
+            cursor: pointer;
+            transition: background-color 0.6s ease;
+        }
+
+        header:hover {
+            filter: brightness(1.5); /* levanta un poco el brillo al pasar el cursor */
+        }
+
+        header.art-mode {
+            background-image: url('img/starry_night_banner2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-shadow: 1px 1px 4px #000;
+            transition: background-image 0.8s ease;
         }
 
         header h1 {
@@ -160,18 +175,78 @@
         .toggle-card.open .description {
             max-height: 500px; /* un valor grande suficiente */
             opacity: 1;
-        }
+        } 
 
         .toggle-card h3 {
             cursor: pointer;
         }
 
+        body.night-mode {
+            background-color: #253a5e;
+            color: #fdd835;
+            transition: background-color 0.8s ease, color 0.8s ease;
+        }
+
+        header.art-mode {
+            background-image: url('img/starry_night_banner2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-shadow: 1px 1px 4px #000;
+            transition: background-image 0.8s ease, color 0.8s ease;
+        }
+
+        body.night-mode .toggle-card {
+            background-color: #6b91c2; /* tono azul noche estrellada */
+            color: #fdd835; /* amarillo estrella */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* sombra oscura */
+            border: none;
+        }
+
+        body.night-mode .toggle-card:hover {
+            box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
+            transform: translateY(-5px); /* mantenemos el levante */
+            transition: all 0.3s ease;
+        }
+
+
+        body.night-mode {
+            color: #fdd835;
+        }
+
+        body.night-mode h1,
+        body.night-mode h2,
+        body.night-mode h3,
+        body.night-mode a, 
+        body.night-mode .description,
+        body.night-mode .toggle-card p {
+            color: #fdd835;
+        }
+
+        body.night-mode .contact-icons a img {
+            filter: brightness(1.2) sepia(1) hue-rotate(-20deg) saturate(3);
+        }
+
+        body.night-mode .contact-icons a:hover img {
+            box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
+            transition: all 0.3s ease;        
+        }
+
+        body.night-mode header p {
+            color: #fdd835;
+            text-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+
     </style>
 </head>
 <body>
-    <header>
+    <header onclick="toggleBannerArt()" id = "pageHeader">
         <h1>Matías Degl'Innocenti</h1>   
-        <p>Aspiring Software Developer</p>
+        <p id="headerSubtext">Aspiring Software Developer</p>
     </header>
     <main>
         
@@ -279,8 +354,25 @@
                 });
             }    
         });
-    </script>
 
+        let artMode = false;
+
+        function toggleBannerArt() {
+            const header = document.getElementById('pageHeader');
+            const body = document.body;
+            const subtext = document.getElementById('headerSubtext');
+
+            header.classList.toggle('art-mode');
+            body.classList.toggle('night-mode');
+
+            if (body.classList.contains('night-mode')) {
+                subtext.textContent = "Un poco de creatividad para inspirar";
+            } else {
+                subtext.textContent = "Aspiring Software Developer";
+            }
+        }
+
+    </script>
 
 </body>
 </html>
