@@ -23,8 +23,8 @@
             transition: background-color 0.6s ease;
         }
 
-        header:hover {
-            filter: brightness(1.5); /* levanta un poco el brillo al pasar el cursor */
+        header:not(.art-mode):hover {
+            filter: brightness(1.5);
         }
 
         header.art-mode {
@@ -240,13 +240,33 @@
             margin-top: 0.5rem;
         }
 
+        .easter-egg-label {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.35);
+            font-style: italic;
+            letter-spacing: 1px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
 
+        #pageHeader {
+            position: relative;
+        }
+
+        #pageHeader:hover .easter-egg-label {
+            color: rgba(255, 255, 255);
+        }
+        
     </style>
 </head>
 <body>
     <header onclick="toggleBannerArt()" id = "pageHeader">
         <h1>Matías Degl'Innocenti</h1>   
         <p id="headerSubtext">Aspiring Software Developer</p>
+        <span class="easter-egg-label">easter egg</span>
     </header>
     <main>
         
@@ -268,7 +288,7 @@
                                 Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.
                             </strong></p>
                             <p>
-                                Me considero una persona motivada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
+                                Soy una persona disciplinada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
                             </p>
                         </div> 
                         <img src="img/profile_jpg.jpg" alt="Foto de perfil" class="profile-img">
@@ -366,7 +386,7 @@
             body.classList.toggle('night-mode');
 
             if (body.classList.contains('night-mode')) {
-                subtext.textContent = "Un poco de creatividad para inspirar";
+                subtext.textContent = "Creatividad para inspirar";
             } else {
                 subtext.textContent = "Aspiring Software Developer";
             }
