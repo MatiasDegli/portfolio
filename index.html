@@ -1,398 +1,550 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi Portfolio</title>
-    <style>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+        <title class="lang" 
+            data-en="My Portfolio" 
+            data-es="Mi Portfolio">
+        </title>
 
-        header {
-            background-color: #1e1e1e;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.6s ease;
-        }
+        <script defer>
+            const userLang = navigator.language || navigator.userLanguage;
+            let currentLang = userLang.startsWith("es") ? "es" : "en";
+            document.documentElement.lang = currentLang;
 
-        header:not(.art-mode):hover {
-            filter: brightness(1.5);
-        }
+            function updateLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang;
 
-        header.art-mode {
-            background-image: url('img/starry_night_banner2.jpg');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            text-shadow: 1px 1px 4px #000;
-            transition: background-image 0.8s ease;
-        }
-
-        header h1 {
-            margin-top: 50px;
-        }
-
-        header p {
-            color: grey;
-        }
-
-        main {
-            padding: 2rem;
-        }
-
-        section {
-            margin-top: 3rem;
-        }
-
-
-        section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #1e1e1e;
-        }
-
-        article {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #ddd;
-        }
-
-        article:last-child {
-            border-bottom: none;
-        }
-
-        article h3 {
-            margin-top: 0;
-            font-size: 1.3rem;
-            color: #333;
-        }
-
-        article p {
-            margin: 0.5rem 0 0;
-            line-height: 1.6;
-        }
-
-        .toggle-card {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease;
-        }
-
-        .toggle-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .about-content {
-            display: flex;        
-            align-items: center; /* centra verticalmente */
-            gap: 2rem; /* espacio entre imagen y texto */
-            flex-wrap: wrap; /* opcional: para que no se rompa en pantallas chicas */
-        }
-
-        .profile-img {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center 70%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0; /* evita que la imagen se achique */
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        /*defino lightbox*/
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-modal img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        /*para texto de descripcion*/
-        .about-text {
-            flex: 1; 
-            min-width: 250px;
-        }
-
-        .contact-icons {
-            display: flex;
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        .contact-icons a img {
-            width: 32px;
-            height: 32px;
-            filter: grayscale(100%);
-            transition: filter 0.3s ease;
-        }
-
-        .contact-icons a:hover img {
-            filter: grayscale(0%);
-        }
-
-        .description {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transition: max-height 0.5s ease, opacity 0.5s ease;
-        }
-
-        .toggle-card.open .description {
-            max-height: 500px; /* un valor grande suficiente */
-            opacity: 1;
-        } 
-
-        .toggle-card h3 {
-            cursor: pointer;
-        }
-
-        body.night-mode {
-            background-color: #253a5e;
-            color: #fdd835;
-            transition: background-color 0.8s ease, color 0.8s ease;
-        }
-
-        header.art-mode {
-            background-image: url('img/starry_night_banner2.jpg');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            text-shadow: 1px 1px 4px #000;
-            transition: background-image 0.8s ease, color 0.8s ease;
-        }
-
-        body.night-mode .toggle-card {
-            background-color: #6b91c2; /* tono azul noche estrellada */
-            color: #fdd835; /* amarillo estrella */
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* sombra oscura */
-            border: none;
-        }
-
-        body.night-mode .toggle-card:hover {
-            box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
-            transform: translateY(-5px); /* mantenemos el levante */
-            transition: all 0.3s ease;
-        }
-
-
-        body.night-mode {
-            color: #fdd835;
-        }
-
-        body.night-mode h1,
-        body.night-mode h2,
-        body.night-mode h3,
-        body.night-mode a, 
-        body.night-mode .description,
-        body.night-mode .toggle-card p {
-            color: #fdd835;
-        }
-
-        body.night-mode .contact-icons a img {
-            filter: brightness(1.2) sepia(1) hue-rotate(-20deg) saturate(3);
-        }
-
-        body.night-mode .contact-icons a:hover img {
-            box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
-            transition: all 0.3s ease;        
-        }
-
-        body.night-mode header p {
-            color: #fdd835;
-            text-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5);
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .easter-egg-label {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
-            font-style: italic;
-            letter-spacing: 1px;
-            pointer-events: none;
-            transition: color 0.3s ease;
-        }
-
-        #pageHeader {
-            position: relative;
-        }
-
-        #pageHeader:hover .easter-egg-label {
-            color: rgba(255, 255, 255);
-        }
-        
-    </style>
-</head>
-<body>
-    <header onclick="toggleBannerArt()" id = "pageHeader">
-        <h1>Matías Degl'Innocenti</h1>   
-        <p id="headerSubtext">Desarrollador de Software en formación</p>
-        <span class="easter-egg-label">easter egg</span>
-    </header>
-    <main>
-        
-        <div class="image-modal" id="imageModal">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img src="img/profile_jpg.jpg" alt="Foto de perfil ampliada">
-        </div>
-
-        <section>
-            
-            <h2>Sobre mi</h2>
-
-            <article class="toggle-card">
-                <h3 onclick="toggleDescription(this)">Descripción</h3>
-                <div class="description">
-                    <div class="about-content">    
-                        <div class="about-text">
-                            <p><strong>
-                                Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.
-                            </strong></p>
-                            <p>
-                                Soy una persona disciplinada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral.
-                            </p>
-                        </div> 
-                        <img src="img/profile_jpg.jpg" alt="Foto de perfil" class="profile-img">
-                    </div>
-                </div>    
-            </article>
-
-            <article class="toggle-card">
-                <h3 onclick="toggleDescription(this)">Skillset</h3>
-                <div class="description">
-                    <p><strong>Avanzado:</strong> Java, Python, Smalltalk</p>
-                    <p><strong>Intermedio:</strong> C, SQL, HTML, CSS, JavaScript, Haskell</p>
-                    <p><strong>Básico:</strong> Prolog, MIPS Assembly</p>
-                </div>    
-            </article>
-        
-        </section>
-
-            
-        <section>
-            <h2>Proyectos</h2>
-
-            <article class="toggle-card">
-                <h3 onclick="toggleDescription(this)">Portafolio Personal</h3>
-                <div class="description">
-                    Sitio web diseñado desde cero con HTML y CSS como parte de un proceso autodidacta. El objetivo es mostrar habilidades y proyectos de forma profesional y minimalista.
-                </div>
-            </article>
-
-
-            <article class="toggle-card">
-                <h3 onclick="toggleDescription(this)">CS50 Final Project</h3>
-                <div class="description">
-                    Proyecto final del curso CS50 de Harvard, enfocado en la creación de una aplicación web con Python y Flask, incluyendo autenticación de usuarios y almacenamiento de datos.
-                </div>
-            </article>
-
-        </section>
-
-        <section>
-            <h2>Contacto</h2>
-            <p>
-                Podes encontrarme en:
-            </p>
-            <div class="contact-icons">
-                <a href="https://github.com/MatiasDegli" aria-label="GitHub" target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" />
-                </a>
-                <a href="https://www.linkedin.com/in/matiasdegli/?locale=es_ES" aria-label="LinkedIn" target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" />
-                </a>
-                <a href="mailto:matias.degli@gmail.com" aria-label="Email">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg" alt="Email" />
-                </a>
-            </div>
-        </section>
-    
-    </main>
-    
-    <script>
-        function toggleDescription(header) {
-            const card = header.parentElement;
-            card.classList.toggle('open');
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const profileImage = document.querySelector('.profile-img');
-            const modal = document.getElementById('imageModal');
-
-            if (profileImage && modal) {
-                profileImage.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                });
-
-                modal.querySelector('.close-modal').addEventListener('click', () => {
-                    modal.style.display = 'none';
-                });
-
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
+                document.querySelectorAll('.lang').forEach(el => {
+                    const value = el.dataset[lang];
+                    if (value !== undefined) {
+                        el.textContent = value;
                     }
                 });
-            }    
-        });
 
-        let artMode = false;
-
-        function toggleBannerArt() {
-            const header = document.getElementById('pageHeader');
-            const body = document.body;
-            const subtext = document.getElementById('headerSubtext');
-
-            header.classList.toggle('art-mode');
-            body.classList.toggle('night-mode');
-
-            if (body.classList.contains('night-mode')) {
-                subtext.textContent = "Creatividad para inspirar";
-            } else {
-                subtext.textContent = "Desarrollador de Software en formación";
+                const subtext = document.getElementById('headerSubtext');
+                if (subtext) {
+                    const normalKey = `data-${lang}-normal`;
+                    const value = subtext.getAttribute(normalKey);
+                    if (value !== null) {
+                        subtext.textContent = value;
+                    }
+                }
             }
-        }
 
-    </script>
+            document.addEventListener("DOMContentLoaded", () => {
+                updateLanguage(currentLang);
 
-</body>
+                const langToggle = document.getElementById('langToggle');
+                if (langToggle) {
+                    langToggle.addEventListener('click', () => {
+                        const newLang = currentLang === 'es' ? 'en' : 'es';
+                        updateLanguage(newLang);
+                    });
+                }
+            });
+        </script>
+
+        <style>
+            
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                background-color: #f5f5f5;
+                color: #333;
+            }
+
+            header {
+                background-color: #1e1e1e;
+                color: white;
+                padding: 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.6s ease;
+            }
+
+            header:not(.art-mode):hover {
+                filter: brightness(1.5);
+            }
+
+            header h1 {
+                margin-top: 50px;
+            }
+
+            header p {
+                color: grey;
+            }
+
+            main {
+                padding: 2rem;
+            }
+
+            section {
+                margin-top: 3rem;
+            }
+
+
+            section h2 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                color: #1e1e1e;
+            }
+
+            article {
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            article:last-child {
+                border-bottom: none;
+            }
+
+            article h3 {
+                margin-top: 0;
+                font-size: 1.3rem;
+                color: #333;
+            }
+
+            article p {
+                margin: 0.5rem 0 0;
+                line-height: 1.6;
+            }
+
+            .toggle-card {
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                transition: transform 0.2s ease;
+            }
+
+            .toggle-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .about-content {
+                display: flex;        
+                align-items: center; /* centra verticalmente */
+                gap: 2rem; /* espacio entre imagen y texto */
+                flex-wrap: wrap; /* opcional: para que no se rompa en pantallas chicas */
+            }
+
+            .profile-img {
+                width: 130px;
+                height: 130px;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center 70%;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                flex-shrink: 0; /* evita que la imagen se achique */
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+
+            /*defino lightbox*/
+            .image-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                top: 0; left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .image-modal img {
+                max-width: 90%;
+                max-height: 90%;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .close-modal {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+            }
+
+            /*para texto de descripcion*/
+            .about-text {
+                flex: 1; 
+                min-width: 250px;
+            }
+
+            .contact-icons {
+                display: flex;
+                gap: 2rem;
+                margin-top: 1rem;
+            }
+
+            .contact-icons a img {
+                width: 32px;
+                height: 32px;
+                filter: grayscale(100%);
+                transition: filter 0.3s ease;
+            }
+
+            .contact-icons a:hover img {
+                filter: grayscale(0%);
+            }
+
+            .description {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease;
+                margin-top: 0.5rem;
+                opacity: 0;
+                transition: max-height 0.5s ease, opacity 0.5s ease;
+            }
+
+            .toggle-card.open .description {
+                max-height: 500px; /* un valor grande suficiente */
+                opacity: 1;
+            } 
+
+            .toggle-card h3 {
+                cursor: pointer;
+            }
+
+            body.night-mode {
+                background-color: #253a5e;
+                color: #fdd835;
+                transition: background-color 0.8s ease, color 0.8s ease;
+            }
+
+            header.art-mode {
+                background-image: url('img/starry_night_banner2.jpg');
+                background-size: cover;
+                background-position: center;
+                color: #fff;
+                text-shadow: 1px 1px 4px #000;
+                transition: background-image 0.8s ease, color 0.8s ease;
+            }
+
+            body.night-mode .toggle-card {
+                background-color: #6b91c2; /* tono azul noche estrellada */
+                color: #fdd835; /* amarillo estrella */
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* sombra oscura */
+                border: none;
+            }
+
+            body.night-mode .toggle-card:hover {
+                box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
+                transform: translateY(-5px); /* mantenemos el levante */
+                transition: all 0.3s ease;
+            }
+
+            body.night-mode h1,
+            body.night-mode h2,
+            body.night-mode h3,
+            body.night-mode a, 
+            body.night-mode .description,
+            body.night-mode .toggle-card p {
+                color: #fdd835;
+            }
+
+            body.night-mode .contact-icons a img {
+                filter: brightness(1.2) sepia(1) hue-rotate(-20deg) saturate(3);
+            }
+
+            body.night-mode .contact-icons a:hover img {
+                box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
+                transition: all 0.3s ease;        
+            }
+
+            body.night-mode header p {
+                color: #fdd835;
+                text-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5);
+                font-weight: bold;
+                font-size: 1.2rem;
+                margin-top: 0.5rem;
+            }
+
+            .easter-egg-label {
+                position: absolute;
+                bottom: 10px;
+                right: 15px;
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.4);
+                font-style: italic;
+                letter-spacing: 1px;
+                pointer-events: none;
+                transition: color 0.3s ease;
+            }
+
+            #pageHeader {
+                position: relative;
+            }
+
+            #pageHeader:hover .easter-egg-label {
+                color: rgba(255, 255, 255);
+            }
+            
+            .lang-toggle-container {
+                margin: 2rem; /* mismo margen que el main o las tarjetas */
+                margin-bottom: 0rem;
+            }
+
+            .lang-toggle {
+                background-color: #fff;
+                color: #333;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                border: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                font-weight: bold;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            }
+
+            .lang-toggle:hover {
+                transform: translateY(-2.5px);
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            }
+
+            body.night-mode .lang-toggle {
+                background-color: #6b91c2;
+                color: #fdd835;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            }
+
+            body.night-mode .lang-toggle:hover {
+                box-shadow: 0 0 12px 4px rgba(253, 216, 53, 0.5); /* glow amarillo suave */
+                transform: translateY(-2.5px); /* mantenemos el levante */
+                transition: all 0.3s ease;
+            }
+
+        </style>
+    </head>
+    
+    <body>
+        <header onclick="toggleBannerArt()" id = "pageHeader">
+            
+            <h1 class="lang" 
+                data-en="Matías Degl'Innocenti" 
+                data-es="Matías Degl'Innocenti">
+            </h1>
+            
+            <p id="headerSubtext" class="lang"
+                data-en-normal="Aspiring Software Developer"
+                data-en-art="Creativity to inspire"
+                data-es-normal="Desarrollador de Software en formación"
+                data-es-art="Creatividad para inspirar">
+            </p>
+
+            <span class="easter-egg-label lang" 
+                data-en="easter egg" 
+                data-es="easter egg">
+            </span>
+        </header>
+        
+        <div class="lang-toggle-container">
+            <button id="langToggle" class="lang-toggle lang"
+                data-en="ES"
+                data-es="EN">
+            </button>
+        </div>
+        
+        <main>
+
+            <div class="image-modal" id="imageModal">
+                <span class="close-modal" onclick="closeModal()">&times;
+                </span>
+                <img src="img/profile_jpg.jpg" alt="Profile Picture">
+            </div>
+
+            <section>
+                
+                <h2 class="lang" 
+                    data-en="About Me" 
+                    data-es="Sobre Mí">
+                </h2>
+
+                <article class="toggle-card">
+                    <h3 onclick="toggleDescription(this)" class="lang" 
+                        data-en="Description" 
+                        data-es="Descripción">
+                    </h3>
+                    <div class="description">
+                        <div class="about-content">    
+                            <div class="about-text">
+                                <p>
+                                    <strong class="lang" 
+                                        data-en="Computer Science student passionate about technology and ethical development." 
+                                        data-es="Estudiante de Ciencias de la Computación apasionado por la tecnología y el desarrollo ético.">
+                                    </strong>
+                                </p>
+                                <p class="lang" 
+                                    data-en="I'm a disciplined and adaptable individual who enjoys teamwork and is seeking a first professional opportunity." 
+                                    data-es="Soy una persona disciplinada y adaptable, que disfruta trabajar en equipo y está en busca de su primera experiencia laboral."> 
+                                </p>
+                            </div> 
+                            <img src="img/profile_jpg.jpg" alt="Foto de perfil" class="profile-img">
+                        </div>
+                    </div>    
+                </article>
+
+                <article class="toggle-card">
+                    <h3 onclick="toggleDescription(this)" class="lang" 
+                        data-en="Skillset" 
+                        data-es="Skillset">
+                    </h3>
+                    
+                    <div class="description">
+                        <p class="lang"
+                            data-en="&lt;strong&gt;Advanced:&lt;/strong&gt; Java, Python, Smalltalk"
+                            data-es="&lt;strong&gt;Avanzado:&lt;/strong&gt; Java, Python, Smalltalk">
+                        </p>
+
+                        <p class="lang"
+                            data-en="&lt;strong&gt;Intermediate:&lt;/strong&gt; SQL, HTML, CSS, JavaScript, C, Prolog"
+                            data-es="&lt;strong&gt;Intermedio:&lt;/strong&gt; SQL, HTML, CSS, JavaScript, C, Prolog">
+                        </p>
+
+                        <p class="lang"
+                            data-en="&lt;strong&gt;Basic:&lt;/strong&gt; MIPS Assembly, Haskell"
+                            data-es="&lt;strong&gt;Básico:&lt;/strong&gt; MIPS Assembly, Haskell">
+                        </p>
+                    </div>
+    
+                </article>
+            
+            </section>
+
+                
+            <section>
+                <h2 class="lang" 
+                    data-en="Projects" 
+                    data-es="Proyectos">
+                </h2>
+
+                <article class="toggle-card">
+                    <h3 onclick="toggleDescription(this)" class="lang" 
+                        data-en="Personal Portfolio" 
+                        data-es="Portafolio Personal">
+                    </h3>
+                    
+                    <div class="description lang"
+                        data-en="Website designed from scratch using HTML and CSS as part of a self-taught process. The goal is to showcase skills and projects in a professional and minimalist way."
+                        data-es="Sitio web diseñado desde cero con HTML y CSS como parte de un proceso autodidacta. El objetivo es mostrar habilidades y proyectos de forma profesional y minimalista.">
+                    </div>
+                </article>
+
+                <article class="toggle-card">
+                    <h3 onclick="toggleDescription(this)" class="lang" 
+                        data-en="CS50 Final Project" 
+                        data-es="Proyecto final CS50">
+                    </h3>
+                    
+                    <div class="description lang"
+                        data-en="Final project for Harvard's CS50 course, focused on building a web application using Python and Flask, including user authentication and data storage."
+                        data-es="Proyecto final del curso CS50 de Harvard, enfocado en la creación de una aplicación web con Python y Flask, incluyendo autenticación de usuarios y almacenamiento de datos.">
+                    </div>
+                </article>
+
+            </section>
+
+            <section>
+                <h2 class="lang" 
+                    data-en="Contact" 
+                    data-es="Contacto">
+                </h2>
+                <p class="lang" 
+                    data-en="Find me here:" 
+                    data-es="Podes encontrarme en:">
+                </p>
+                <div class="contact-icons">
+                    <a href="https://github.com/MatiasDegli" aria-label="GitHub" target="_blank">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" />
+                    </a>
+                    <a href="https://www.linkedin.com/in/matiasdegli/?locale=es_ES" aria-label="LinkedIn" target="_blank">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" />
+                    </a>
+                    <a href="mailto:matias.degli@gmail.com" aria-label="Email">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg" alt="Email" />
+                    </a>
+                </div>
+            </section>
+        
+        </main>
+        
+        <script>
+            function toggleDescription(header) {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const profileImage = document.querySelector('.profile-img');
+                const modal = document.getElementById('imageModal');
+
+                if (profileImage && modal) {
+                    profileImage.addEventListener('click', () => {
+                        modal.style.display = 'flex';
+                    });
+
+                    modal.querySelector('.close-modal').addEventListener('click', () => {
+                        modal.style.display = 'none';
+                    });
+
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.style.display = 'none';
+                        }
+                    });
+                }    
+            });
+
+            let artMode = false;
+
+            function toggleBannerArt() {
+                const header = document.getElementById('pageHeader');
+                const body = document.body;
+                const subtext = document.getElementById('headerSubtext');
+
+                header.classList.toggle('art-mode');
+                body.classList.toggle('night-mode');
+
+                const lang = document.documentElement.lang;
+                const state = body.classList.contains('night-mode') ? 'art' : 'normal';
+                const key = `data-${lang}-${state}`;
+                const text = subtext.getAttribute(key);
+
+                if (text) {
+                    subtext.textContent = text;
+                }
+            }
+
+            function updateLanguage(lang) {
+                document.documentElement.lang = lang;
+                currentLang = lang;
+
+                document.querySelectorAll('.lang').forEach(el => {
+                    const newText = el.dataset[lang];
+                    if (newText) el.innerHTML = newText;
+                });
+
+                const subtext = document.getElementById('headerSubtext');
+                if (subtext) {
+                    const isArt = document.body.classList.contains('night-mode');
+                    const key = `data-${lang}-${isArt ? 'art' : 'normal'}`;
+                    const value = subtext.getAttribute(key);
+                    if (value) subtext.innerHTML = value;
+                }
+            }
+
+        </script>
+    </body>
 </html>
